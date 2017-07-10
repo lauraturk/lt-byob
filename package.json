@@ -12,6 +12,7 @@
   "dependencies": {
     "jshint": "^2.9.5",
     "knex": "^0.13.0",
+    "lint-validator": "https://github.com/lauraturk/lint-validator.git",
     "nightmare": "^2.10.0",
     "node-fetch": "^1.7.1",
     "pg": "^6.4.0"

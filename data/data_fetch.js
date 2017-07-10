@@ -1,59 +1,60 @@
+/*jshint esversion: 6 */
+
 const Nightmare = require('nightmare');
 const nightmare = Nightmare({ show: true });
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 
-const cleanTitle = require('./cleanData')
-const cleanResponseData = require('./cleanData')
+const cleanTitle = require('./cleanData');
+const cleanResponseData = require('./cleanData');
 
 class SetData {
   constructor(){
-    this.dataSet = {}
+    this.dataSet = {};
   }
 
   cleanResponseData(responseBody) {
-    const text = responseBody.text
+    const text = responseBody.text;
 
-    const re = new RegExp('[A-Za-z]', 'g')
+    const re = new RegExp('[A-Za-z]', 'g');
 
     const punctuationRemove = text.split(" ").filter(word => re.test(word));
 
     const adjectiveFilter = punctuationRemove.filter(word => word.includes('/JJ')).reduce((acc, word) => {
       const splitWord = word.split('/');
       acc.adjectives.push({word: splitWord[0], type: splitWord[1]});
-      return acc
+      return acc;
     }, {adjectives: []});
 
     const nounFilter = punctuationRemove.filter(word => word.includes('/NN')).reduce((acc, word) => {
       const splitWord = word.split('/');
       acc.nouns.push({word: splitWord[0], type: splitWord[1]});
-      return acc
+      return acc;
     }, {nouns: []});
 
     const adverbFilter = punctuationRemove.filter(word => word.includes('/RB')).reduce((acc, word) => {
       const splitWord = word.split('/');
       acc.adverbs.push({word: splitWord[0], type: splitWord[1]});
-      return acc
+      return acc;
     }, {adverbs: []});
 
     const verbFilter = punctuationRemove.filter(word => word.includes('/VB')).reduce((acc, word) => {
       const splitWord = word.split('/');
       acc.verbs.push({word: splitWord[0], type: splitWord[1]});
-      return acc
+      return acc;
     }, {verbs: []});
 
     this.dataSet = Object.assign(this.dataSet, adjectiveFilter, nounFilter, adverbFilter, verbFilter);
-    console.log(this.dataSet)
+    console.log(this.dataSet);
   }
 
   parseBlurb(result){
-    console.log(result);
-    this.dataSet = Object.assign(this.dataSet, result)
+    this.dataSet = Object.assign(this.dataSet, result);
 
-    const formData = new FormData()
+    const formData = new FormData();
 
-    formData.append('text', result.text)
-    formData.append('output', 'tagged')
+    formData.append('text', result.text);
+    formData.append('output', 'tagged');
 
     fetch(`http://text-processing.com/api/tag/`, {
       method: "POST",
@@ -61,7 +62,7 @@ class SetData {
     })
     .then((response) => response.json())
     .then(data => this.cleanResponseData(data))
-    .catch((error) => console.log("fetch failed", error))
+    .catch((error) => console.log("fetch failed", error));
   }
 
   findSingleBook(){
@@ -69,16 +70,16 @@ class SetData {
       .evaluate(() => {
       const title = document.getElementById('productTitle').innerText;
 
-      const iframeSection = document.querySelector('#bookDesc_iframe')
+      const iframeSection = document.querySelector('#bookDesc_iframe');
 
-      const pBlurb = iframeSection.contentWindow.document.body.querySelectorAll('p')
+      const pBlurb = iframeSection.contentWindow.document.body.querySelectorAll('p');
 
       let reducedBlurbs = '';
 
       pBlurb.forEach(blurb => {
-        reducedBlurbs +=` ${blurb.innerText}`
-      })
-      return { text: reducedBlurbs, title: title }
+        reducedBlurbs +=` ${blurb.innerText}`;
+      });
+      return { text: reducedBlurbs, title: title };
     })
     .end()
     .then((result) => this.parseBlurb(result))
@@ -86,4 +87,4 @@ class SetData {
   }
 }
 
-module.exports = SetData
+module.exports = SetData;

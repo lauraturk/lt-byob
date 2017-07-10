@@ -1,5 +1,6 @@
-const data = require('../../../data/cleanData')
+/*jshint esversion: 6 */
 
+const data = require('../../../data/cleanData');
 
   const createTextSample = (knex, text_sample) => {
     return knex('text_samples').insert({
@@ -16,7 +17,7 @@ const data = require('../../../data/cleanData')
             type: adjective.type,
             text_id: text_sampleId[0]
           })
-        )
+        );
       });
 
       text_sample.nouns.forEach(noun => {
@@ -26,7 +27,7 @@ const data = require('../../../data/cleanData')
             type: noun.type,
             text_id: text_sampleId[0]
           })
-        )
+        );
       });
 
       text_sample.verbs.forEach(verb => {
@@ -36,21 +37,21 @@ const data = require('../../../data/cleanData')
             type: verb.type,
             text_id: text_sampleId[0]
           })
-        )
+        );
       });
 
       text_sample.adverbs.forEach(adverb => {
         posPromises.push(
-          createAdjective(knex, {
+          createAdverb(knex, {
             word: adverb.word,
             type: adverb.type,
             text_id: text_sampleId[0]
           })
-        )
+        );
       });
 
-      return Promise.all(posPromises)
-    })
+      return Promise.all(posPromises);
+    });
   };
 
   const createAdjective = (knex, adjective) => {
@@ -84,5 +85,5 @@ exports.seed = (knex, Promise) => {
 
       return Promise.all(textSamplePromises);
     })
-  .catch(error => console.log(`Error seeding data ${error}`))
+  .catch(error => console.log(`Error seeding data ${error}`));
 };

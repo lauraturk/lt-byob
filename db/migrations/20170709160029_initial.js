@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 
 exports.up = (knex, Promise) => {
   return Promise.all([
@@ -43,7 +44,7 @@ exports.up = (knex, Promise) => {
       table.foreign('text_id').references('text_samples.id');
       table.timestamps(true, true);
     })
-  ])
+  ]);
 };
 
 exports.down = (knex, Promise) => {
