@@ -4,12 +4,19 @@
   "description": "Build Your Own Backend -Mod 4 project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "jshint ."
   },
   "author": "Laura Turk",
   "license": "ISC",
   "dependencies": {
+    "jshint": "^2.9.5",
     "knex": "^0.13.0",
+    "nightmare": "^2.10.0",
+    "node-fetch": "^1.7.1",
     "pg": "^6.4.0"
-  }
+  },
+  "pre-commit": [
+    "lint"
+  ]
 }
