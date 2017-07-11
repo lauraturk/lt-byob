@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -20,7 +22,7 @@ app.get('/api/v1/text_samples', (request, response) => {
         response.status(200).json(text_samples);
       } else {
         response.status(404).json({error: '404: Resource not found'});
-      };
+      }
   });
 });
 
@@ -31,7 +33,7 @@ app.get('/api/v1/adjectives', (request, response) => {
         response.status(200).json(adjectives);
       } else {
         response.status(404).json({error: '404: Resource not found'});
-      };
+      }
   });
 });
 
@@ -42,7 +44,7 @@ app.get('/api/v1/adverbs', (request, response) => {
         response.status(200).json(adverbs);
       } else {
         response.status(404).json({error: '404: Resource not found'});
-      };
+      }
   });
 });
 
@@ -53,7 +55,7 @@ app.get('/api/v1/nouns', (request, response) => {
         response.status(200).json(nouns);
       } else {
         response.status(404).json({error: '404: Resource not found'});
-      };
+      }
   });
 });
 
@@ -64,12 +66,12 @@ app.get('/api/v1/verbs', (request, response) => {
         response.status(200).json(verbs);
       } else {
         response.status(404).json({error: '404: Resource not found'});
-      };
+      }
   });
 });
 
 app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on ${app.get('port')}.`)
-})
+  console.log(`${app.locals.title} is running on ${app.get('port')}.`);
+});
 
 module.exports = app;
