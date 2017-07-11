@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha",
+    "test": "mocha test/routes.spec.js",
     "lint": "jshint ."
   },
   "author": "Laura Turk",

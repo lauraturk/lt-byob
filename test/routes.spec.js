@@ -6,12 +6,15 @@ const chai = require('chai');
 const should = chai.should();
 const chaiHttp = require('chai-http');
 const server = require('../server');
+const knex = require('../db/knex')
 
 chai.use(chaiHttp);
 
-describe('API Routes', () => {
-
   describe('GET routes', () => {
+    beforeEach((done) => {
+      knex.seed.run()
+      done();
+    });
 
     it('should return all text samples', () => {
       chai.request(server)
@@ -93,6 +96,20 @@ describe('API Routes', () => {
       });
     });
 
+    // it.only('should return a specific noun', () => {
+    //   chai.request(server)
+    //   .get('api/v1/sad')
+    //   .end((err, res) => {
+    //     res.should.have.status(200);
+    //     res.should.be.json; //jshint ignore:line
+    //     res.body.should.be.a('array');
+    //     res.body[0].should.have.property('word');
+    //     res.body[0].word.should.equal('Come');
+    //     res.body[0].should.have.property('type');
+    //     res.body[0].type.should.equal('NNP');
+    //     res.body[0].should.have.property('id');
+    //     done();
+    //   });
+    // });
 
   });
-});

@@ -70,6 +70,76 @@ app.get('/api/v1/verbs', (request, response) => {
   });
 });
 
+app.get('/api/v1/text_samples/:id', (request, response) => {
+  database('text_samples').where('id', request.params.id).select()
+    .then((text_sample) => {
+      if(text_sample.length) {
+        response.status(200).json(text_sample);
+      } else {
+        response.status(404).json({error: '404: Resource not found'});
+      }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+  });
+});
+
+app.get('/api/v1/verbs/:id', (request, response) => {
+  database('verbs').where('id', request.params.id).select()
+    .then((verb) => {
+      if(verb.length) {
+        response.status(200).json(verb);
+      } else {
+        response.status(404).json({error: '404: Resource not found'});
+      }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+  });
+});
+
+app.get('/api/v1/adverbs/:id', (request, response) => {
+  database('adverbs').where('id', request.params.id).select()
+    .then((adverb) => {
+      if(adverb.length) {
+        response.status(200).json(adverb);
+      } else {
+        response.status(404).json({error: '404: Resource not found'});
+      }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+  });
+});
+
+app.get('/api/v1/adjectives/:id', (request, response) => {
+  database('adjectives').where('id', request.params.id).select()
+    .then((adjective) => {
+      if(adjective.length) {
+        response.status(200).json(adjective);
+      } else {
+        response.status(404).json({error: '404: Resource not found'});
+      }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+  });
+});
+
+app.get('/api/v1/nouns/:id', (request, response) => {
+  database('nouns').where('id', request.params.id).select()
+    .then((noun) => {
+      if(noun.length) {
+        response.status(200).json(noun);
+      } else {
+        response.status(404).json({error: '404: Resource not found'});
+      }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+  });
+});
+
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
 });
