@@ -80,7 +80,7 @@ app.get('/api/v1/text_samples/:id', (request, response) => {
       }
   })
   .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -94,7 +94,7 @@ app.get('/api/v1/verbs/:id', (request, response) => {
       }
   })
   .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -108,7 +108,7 @@ app.get('/api/v1/adverbs/:id', (request, response) => {
       }
   })
   .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -122,7 +122,7 @@ app.get('/api/v1/adjectives/:id', (request, response) => {
       }
   })
   .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -136,7 +136,7 @@ app.get('/api/v1/nouns/:id', (request, response) => {
       }
   })
   .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific all folders.'})
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
