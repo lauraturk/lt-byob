@@ -40,3 +40,5 @@
 * [Amazon Books](https://www.amazon.com/books-used-books-textbooks/b/ref=nav_shopall_bo_t3?ie=UTF8&node=283155)
 * [Text Processing.com(API)](http://text-processing.com/docs/tag.html)
 * [Penn Treebank Tags](http://web.mit.edu/6.863/www/PennTreebankTags.html#ADJP)
+* [Tutorial for setting up TDD test environment](http://mherman.org/blog/2016/04/28/test-driven-development-with-node/#.WWQ1M2RKXEY)
+* [References for testing, knex, express](http://frontend.turing.io/lessons/)
