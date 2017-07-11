@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-process.env.NODE_ENV = 'test'
+process.env.NODE_ENV = 'test';
 
 const chai = require('chai');
 const should = chai.should();
@@ -18,7 +18,7 @@ describe('API Routes', () => {
       .get('api/v1/text_samples')
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.json;
+        res.should.be.json; //jshint ignore:line
         res.body.should.be.a('array');
         res.body[0].should.have.property('title');
         res.body[0].title.should.equal('Serenity Harbor: A Heartwarming Small Town Romance (Haven Point)');
@@ -34,7 +34,7 @@ describe('API Routes', () => {
       .get('api/v1/verbs')
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.json;
+        res.should.be.json; //jshint ignore:line
         res.body.should.be.a('array');
         res.body[0].should.have.property('word');
         res.body[0].word.should.equal('named');
@@ -50,7 +50,7 @@ describe('API Routes', () => {
       .get('api/v1/adverbs')
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.json;
+        res.should.be.json; //jshint ignore:line
         res.body.should.be.a('array');
         res.body[0].should.have.property('word');
         res.body[0].word.should.equal('little');
@@ -66,7 +66,7 @@ describe('API Routes', () => {
       .get('api/v1/adjectives')
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.json;
+        res.should.be.json; //jshint ignore:line
         res.body.should.be.a('array');
         res.body[0].should.have.property('word');
         res.body[0].word.should.equal('idyllic');
@@ -82,7 +82,7 @@ describe('API Routes', () => {
       .get('api/v1/nouns')
       .end((err, res) => {
         res.should.have.status(200);
-        res.should.be.json;
+        res.should.be.json; //jshint ignore:line
         res.body.should.be.a('array');
         res.body[0].should.have.property('word');
         res.body[0].word.should.equal('Come');
