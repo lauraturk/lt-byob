@@ -1,6 +1,14 @@
-// Update with your config settings.
-
 module.exports = {
+  test: {
+    client: 'pg',
+    connection: 'postgres://localhost/madlib_test',
+    migrations: {
+      directory: './db/migrations'
+    },
+    seeds: {
+      directory: './db/seeds/test'
+    }
+  },
 
   development: {
     client: 'pg',
