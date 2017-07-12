@@ -1,19 +1,53 @@
 /*jshint esversion: 6 */
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const bodyParser = require('body-parser');
+const config = require('dotenv').config().parsed;
+const jwt = require('jsonwebtoken');
 
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('./knexfile')[environment];
 const database = require('knex')(configuration);
 
+app.locals.title = 'BYO-MadLib API';
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+
+if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
+  throw 'Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file'
+}
+
+app.set('secretKey', config.CLIENT_SECRET)
 
 app.set('port', process.env.PORT || 3000);
 
-app.locals.title = 'BYO-MadLib API';
+
+app.post('/authenticate', (request, response) => {
+    const user = request.body;
+
+    if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
+      response.status(403).send({
+        success: false,
+        message: 'Invalid Credentials'
+      });
+    }
+
+    else {
+      let token = jwt.sign(user, app.get('secretKey'), {
+        expiresIn: 172800
+      });
+
+      response.json({
+        success: true,
+        username: user.username,
+        token: token
+      });
+    }
+  });
 
 app.get('/api/v1/text_samples', (request, response) => {
   database('text_samples').select()
