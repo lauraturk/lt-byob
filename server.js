@@ -50,7 +50,7 @@ app.post('/authenticate', (request, response) => {
 });
 
 const checkAuth = (request, response, next) => {
-  const token = request.body.token || request.param('token') || request.headers['authorization'];
+  const token = request.body.token || request.param('token') || request.headers.authorization;
 
   if (token) {
     jwt.verify(token, app.get('secretKey'), (error, decoded) => {
@@ -71,9 +71,9 @@ const checkAuth = (request, response, next) => {
     return response.status(403).send({
       success: false,
       message: 'You must be authorized to hit this endpoint'
-    })
+    });
   }
-}
+};
 
 app.get('/api/v1/text_samples', (request, response) => {
   database('text_samples').select()
