@@ -27,27 +27,53 @@ app.set('port', process.env.PORT || 3000);
 
 
 app.post('/authenticate', (request, response) => {
-    const user = request.body;
+  const user = request.body;
 
-    if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
-      response.status(403).send({
-        success: false,
-        message: 'Invalid Credentials'
-      });
-    }
+  if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
+    response.status(403).send({
+      success: false,
+      message: 'Invalid Credentials'
+    });
+  }
 
-    else {
-      let token = jwt.sign(user, app.get('secretKey'), {
-        expiresIn: 172800
-      });
+  else {
+    let token = jwt.sign(user, app.get('secretKey'), {
+      expiresIn: 172800
+    });
 
-      response.json({
-        success: true,
-        username: user.username,
-        token: token
-      });
-    }
+    response.json({
+      success: true,
+      username: user.username,
+      token: token
   });
+  }
+});
+
+const checkAuth = (request, response, next) => {
+  const token = request.body.token || request.param('token') || request.headers['authorization'];
+
+  if (token) {
+    jwt.verify(token, app.get('secretKey'), (error, decoded) => {
+      if (error) {
+        return response.status(403).send({
+          success: false,
+          message: 'Invalid authorization token.'
+        });
+      }
+      else {
+        request.decoded = decoded;
+        next();
+      }
+    });
+  }
+
+  else {
+    return response.status(403).send({
+      success: false,
+      message: 'You must be authorized to hit this endpoint'
+    })
+  }
+}
 
 app.get('/api/v1/text_samples', (request, response) => {
   database('text_samples').select()
@@ -163,7 +189,7 @@ app.patch('/api/v1/:table/:id', (request, response) => {
 
   const { type } = request.body;
 
-  database(`${table}`).where('id', id).update({ type: type })
+  database(`${table}`).where('id', id).update({ 'type': type })
     .then((data) => {
       return response.status(201).json({ 'data': data, 'message': "success!"});
     })
