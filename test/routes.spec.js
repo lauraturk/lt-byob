@@ -264,7 +264,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it.only('should change the text sample title', (done) => {
+    it.skip('should change the text sample title', (done) => {
       chai.request(server)
       .patch('/api/v1/text_samples/1')
       .send({title: 'Playful Secrets'})
@@ -281,7 +281,7 @@ describe('Client Routes', () => {
       .end((err, res) => {
         res.should.have.status(202);
         res.body.should.have.property('message');
-        res.body.message.should.equal('deleted!')
+        res.body.message.should.equal('deleted!');
         res.should.be.json; //jshint ignore:line
         done();
       });
