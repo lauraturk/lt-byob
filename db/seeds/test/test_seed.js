@@ -2,73 +2,23 @@
 
 const data = require('../../../data/cleanData');
 
-  const createTextSample = (knex, text_sample) => {
-    return knex('text_samples').insert({
-      title: text_sample.title,
-      body: text_sample.body
-    }, 'id')
-    .then(text_sampleId => {
-      let posPromises = [];
+const createAdjective = (knex, adjective) => {
+  return knex('adjectives').insert(adjective);
+};
 
-      text_sample.adjectives.forEach(adjective => {
-        posPromises.push(
-          createAdjective(knex, {
-            word: adjective.word,
-            type: adjective.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
+const createNoun = (knex, noun) => {
+  return knex('nouns').insert(noun);
+};
 
-      text_sample.nouns.forEach(noun => {
-        posPromises.push(
-          createNoun(knex, {
-            word: noun.word,
-            type: noun.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
+const createVerb = (knex, verb) => {
+  return knex('verbs').insert(verb);
+};
 
-      text_sample.verbs.forEach(verb => {
-        posPromises.push(
-          createVerb(knex, {
-            word: verb.word,
-            type: verb.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
+const createAdverb = (knex, adverb) => {
+  return knex('adverbs').insert(adverb);
+};
 
-      text_sample.adverbs.forEach(adverb => {
-        posPromises.push(
-          createAdverb(knex, {
-            word: adverb.word,
-            type: adverb.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
 
-      return Promise.all(posPromises);
-    });
-  };
-
-  const createAdjective = (knex, adjective) => {
-    return knex('adjectives').insert(adjective);
-  };
-
-  const createNoun = (knex, noun) => {
-    return knex('nouns').insert(noun);
-  };
-
-  const createVerb = (knex, verb) => {
-    return knex('verbs').insert(verb);
-  };
-
-  const createAdverb = (knex, adverb) => {
-    return knex('adverbs').insert(adverb);
-  };
   // Deletes ALL existing entries
 exports.seed = (knex, Promise) => {
   return knex('verbs').del()
@@ -77,13 +27,53 @@ exports.seed = (knex, Promise) => {
     .then(() => knex('adverbs').del())
     .then(() => knex('text_samples').del())
     .then(() => {
-      let textSamplePromises = [];
+      return Promise.all([
+        knex('text_samples').insert({
+          title: data.text_samples[0].title,
+          body: data.text_samples[0].body,
+          id: 1
+        }, 'id')
+        .then(text_sampleId => {
 
-      data.text_samples.forEach(text_sample => {
-        textSamplePromises.push(createTextSample(knex, text_sample));
-      });
+          let posPromises = []
 
-      return Promise.all(textSamplePromises);
-    })
-  .catch(error => console.log(`Error seeding data ${error}`));
-};
+          posPromises.push(createAdjective(knex, {
+            word: data.text_samples[0].adjectives[0].word,
+            type: data.text_samples[0].adjectives[0].type,
+            text_id: text_sampleId[0],
+            id: 1
+          })
+        );
+
+          posPromises.push(createAdverb(knex, {
+            word: data.text_samples[0].adverbs[0].word,
+            type: data.text_samples[0].adverbs[0].type,
+            text_id: text_sampleId[0],
+            id: 2
+          })
+        );
+
+          posPromises.push(createVerb(knex, {
+            word: data.text_samples[0].verbs[0].word,
+            type: data.text_samples[0].verbs[0].type,
+            text_id: text_sampleId[0],
+            id: 3
+          })
+        );
+
+          posPromises.push(createNoun(knex, {
+            word: data.text_samples[0].nouns[0].word,
+            type: data.text_samples[0].nouns[0].type,
+            text_id: text_sampleId[0],
+            id: 3
+          })
+        );
+
+        return Promise.all(posPromises);
+      })
+    ])
+    .then(console.log('test seeding complete!'))
+    .catch(error => console.log(`Error seeding test data: ${error}`));
+  })
+    .catch(error => console.log(`Error seeding test data: ${error}`));
+  };

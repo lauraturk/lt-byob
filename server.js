@@ -23,6 +23,9 @@ app.get('/api/v1/text_samples', (request, response) => {
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -34,6 +37,9 @@ app.get('/api/v1/adjectives', (request, response) => {
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -45,6 +51,9 @@ app.get('/api/v1/adverbs', (request, response) => {
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -56,6 +65,9 @@ app.get('/api/v1/nouns', (request, response) => {
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
@@ -67,14 +79,21 @@ app.get('/api/v1/verbs', (request, response) => {
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
+  })
+  .catch(() => {
+    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
   });
 });
 
-app.get('/api/v1/text_samples/:id', (request, response) => {
-  database('text_samples').where('id', request.params.id).select()
-    .then((text_sample) => {
-      if(text_sample.length) {
-        response.status(200).json(text_sample);
+app.get('/api/v1/:table/:id', (request, response) => {
+  const { id } = request.params;
+
+  const { table } = request.params;
+
+  database(`${table}`).where('id', id).select()
+    .then((word) => {
+      if(word.length) {
+        response.status(200).json(word);
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
@@ -84,11 +103,15 @@ app.get('/api/v1/text_samples/:id', (request, response) => {
   });
 });
 
-app.get('/api/v1/verbs/:id', (request, response) => {
-  database('verbs').where('id', request.params.id).select()
-    .then((verb) => {
-      if(verb.length) {
-        response.status(200).json(verb);
+app.get('/api/v1/text_samples/:id/words', (request, response) => {
+  select('*').from('verbs').where('text_id', request.params.id)
+  // database('text_samples').join('adjectives', 'text_samples.id', '=', ).where('text_id', request.params.id)
+  // database('verbs').where('text_id', request.params.id).select()
+  // database('adverbs').where('text_id', request.params.id).select()
+  // database('adjectives').where('text_id', request.params.id).select()
+    .then((words) => {
+      if(words.length) {
+        response.status(200).json(words);
       } else {
         response.status(404).json({error: '404: Resource not found'});
       }
@@ -98,46 +121,55 @@ app.get('/api/v1/verbs/:id', (request, response) => {
   });
 });
 
-app.get('/api/v1/adverbs/:id', (request, response) => {
-  database('adverbs').where('id', request.params.id).select()
-    .then((adverb) => {
-      if(adverb.length) {
-        response.status(200).json(adverb);
-      } else {
-        response.status(404).json({error: '404: Resource not found'});
-      }
-  })
-  .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
+app.patch('/api/v1/:table/:id', (request, response) => {
+  // console.log(request);
+  const { id } = request.params
+
+  const { table } = request.params
+
+  const { type } = request.body
+
+  database(`${table}`).where('id', id).update({ type: type })
+    .then((data) => {
+      return response.status(201).json({ 'data': data, 'message': "success!"})
+    })
+    .catch((error) => {
+      return response.status(422).json({ 'error': error })
   });
 });
 
-app.get('/api/v1/adjectives/:id', (request, response) => {
-  database('adjectives').where('id', request.params.id).select()
-    .then((adjective) => {
-      if(adjective.length) {
-        response.status(200).json(adjective);
+app.delete('/api/v1/:table/:id', (request, response) => {
+  const { id } = request.params
+
+  const { table } = request.params
+
+  database(`${table}`).where('id', id).delete()
+    .then((data) => {
+      if(data) {
+        return response.status(200).json({ 'message': 'deleted!' })
       } else {
-        response.status(404).json({error: '404: Resource not found'});
+        return response.status(422).json({ 'error': 'nothing to delete'})
       }
-  })
-  .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
-  });
+    })
+    .catch(() => {
+      return response.status(500).json({ 'error': '500: Internal error deleting resource' })
+    });
 });
 
-app.get('/api/v1/nouns/:id', (request, response) => {
-  database('nouns').where('id', request.params.id).select()
-    .then((noun) => {
-      if(noun.length) {
-        response.status(200).json(noun);
+app.delete('/api/v1/text_samples/:id', (request, response) => {
+  const { id } = request.params
+
+  database('text_samples').where('id', id).delete()
+    .then((data) => {
+      if(data) {
+        return response.status(200).json({ 'message': 'text deleted!' })
       } else {
-        response.status(404).json({error: '404: Resource not found'});
+        return response.status(422).json({ 'error': 'nothing to delete'})
       }
-  })
-  .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
-  });
+    })
+    .catch(() => {
+      return response.status(500).json({ 'error': '500: Internal error deleting resource' })
+    });
 });
 
 app.listen(app.get('port'), () => {
