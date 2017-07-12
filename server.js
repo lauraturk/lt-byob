@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
-  throw 'Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file'
+  throw 'Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file';
 }
 
-app.set('secretKey', config.CLIENT_SECRET)
+app.set('secretKey', config.CLIENT_SECRET);
 
 app.set('port', process.env.PORT || 3000);
 
