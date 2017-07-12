@@ -164,25 +164,27 @@ app.get('/api/v1/:table/:id', (request, response) => {
 });
 
 app.get('/api/v1/text_samples/:id/words', (request, response) => {
-  select('*').from('verbs').where('text_id', request.params.id)
-  // database('text_samples').join('adjectives', 'text_samples.id', '=', ).where('text_id', request.params.id)
-  // database('verbs').where('text_id', request.params.id).select()
-  // database('adverbs').where('text_id', request.params.id).select()
-  // database('adjectives').where('text_id', request.params.id).select()
-    .then((words) => {
-      if(words.length) {
-        response.status(200).json(words);
-      } else {
-        response.status(404).json({error: '404: Resource not found'});
-      }
+  const { id } = request.params;
+
+  database('verbs').where('text_id', id).select().union(function () {
+    this.select('*').from('adverbs').where('text_id', id).union(function () {
+      this.select('*').from('adjectives').where('text_id', id).union(function () {
+        this.select('*').from('nouns').where('text_id', id);
+      });
+    });
   })
-  .catch(() => {
-    response.status(500).send({'Error':'500: Internal error retrieving specific resource.'});
-  });
+  .then((data) => {
+    if (data.length) {
+      response.status(200).json(data);
+    } else {
+      resonse.status(404).json({'error': 'Error requesting stuff'});
+    }
+  })
+  .catch((error) => console.log('error', error));
 });
 
+
 app.patch('/api/v1/:table/:id', (request, response) => {
-  // console.log(request);
   const { id } = request.params;
 
   const { table } = request.params;
@@ -191,11 +193,26 @@ app.patch('/api/v1/:table/:id', (request, response) => {
 
   database(`${table}`).where('id', id).update({ 'type': type })
     .then((data) => {
-      return response.status(201).json({ 'data': data, 'message': "success!"});
+      return response.status(201).json({ 'data': data, 'message': 'success!'});
     })
     .catch((error) => {
       return response.status(422).json({ 'error': error });
   });
+});
+
+app.patch('/api/v1/text_samples/:id', (request, response) => {
+  console.log(request);
+  const { id } = request.params;
+
+  const { title } = request.body;
+
+  database('text_samples').where('id', id).update({ 'title': title })
+    .then((data) => {
+      return response.status(201).json({ 'data': data, 'message': 'title changed!'});
+    })
+    .catch((error) => {
+      return response.status(422).json({'error': error});
+    });
 });
 
 app.delete('/api/v1/:table/:id', (request, response) => {
@@ -205,8 +222,8 @@ app.delete('/api/v1/:table/:id', (request, response) => {
 
   database(`${table}`).where('id', id).delete()
     .then((data) => {
-      if(data) {
-        return response.status(200).json({ 'message': 'deleted!' });
+      if(data > 0) {
+        return response.status(202).json({ 'message': 'deleted!' });
       } else {
         return response.status(422).json({ 'error': 'nothing to delete'});
       }

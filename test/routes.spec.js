@@ -11,6 +11,19 @@ const knex = require('../db/knex');
 chai.use(chaiHttp);
 
 describe('Client Routes', () => {
+  before((done) => {
+    knex.migrate.latest()
+    .then(() => {
+      done();
+    });
+  });
+
+  beforeEach((done) => {
+    knex.seed.run()
+    .then(() => {
+      done();
+    });
+  });
 
   it('should return an error code if endpoint does not exist', (done) => {
     chai.request(server)
@@ -22,19 +35,6 @@ describe('Client Routes', () => {
   });
 
   describe('API GET routes', () => {
-    before((done) => {
-      knex.migrate.latest()
-      .then(() => {
-        done();
-      });
-    });
-
-    beforeEach((done) => {
-      knex.seed.run()
-      .then(() => {
-        done();
-      });
-    });
 
     it('should return all text samples', (done) => {
       chai.request(server)
@@ -241,7 +241,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it.skip('should return a all the words from a text_sample', (done) => {
+    it('should return all the words from a text_sample', (done) => {
       chai.request(server)
       .get('/api/v1/text_samples/1/words')
       .end((err, res) => {
@@ -253,31 +253,24 @@ describe('Client Routes', () => {
       });
     });
 
-  });
-
-  describe('API PUT, PATCH, DELETE routes', () => {
-    before((done) => {
-      knex.migrate.latest()
-      .then(() => {
-        done();
-      });
-    });
-
-    beforeEach((done) => {
-      knex.seed.run()
-      .then(() => {
-        done();
-      });
-    });
-
-    it.skip('should change the word type', () => {
+    it('should change the word type', (done) => {
       chai.request(server)
       .patch('/api/v1/verbs/1')
+      .send({type: 'PPP'})
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         res.should.be.json; //jshint ignore:line
-        res.body.should.be.a('array');
-        res.body.length.should.equal(4);
+        done();
+      });
+    });
+
+    it.only('should change the text sample title', (done) => {
+      chai.request(server)
+      .patch('/api/v1/text_samples/1')
+      .send({title: 'Playful Secrets'})
+      .end((err, res) => {
+        res.should.have.status(201);
+        res.should.be.json; //jshint ignore:line
         done();
       });
     });
@@ -286,7 +279,9 @@ describe('Client Routes', () => {
       chai.request(server)
       .delete('/api/v1/nouns/3')
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(202);
+        res.body.should.have.property('message');
+        res.body.message.should.equal('deleted!')
         res.should.be.json; //jshint ignore:line
         done();
       });
