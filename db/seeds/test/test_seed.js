@@ -35,7 +35,7 @@ exports.seed = (knex, Promise) => {
         }, 'id')
         .then(text_sampleId => {
 
-          let posPromises = []
+          let posPromises = [];
 
           posPromises.push(createAdjective(knex, {
             word: data.text_samples[0].adjectives[0].word,

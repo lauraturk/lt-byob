@@ -123,52 +123,52 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
 
 app.patch('/api/v1/:table/:id', (request, response) => {
   // console.log(request);
-  const { id } = request.params
+  const { id } = request.params;
 
-  const { table } = request.params
+  const { table } = request.params;
 
-  const { type } = request.body
+  const { type } = request.body;
 
   database(`${table}`).where('id', id).update({ type: type })
     .then((data) => {
-      return response.status(201).json({ 'data': data, 'message': "success!"})
+      return response.status(201).json({ 'data': data, 'message': "success!"});
     })
     .catch((error) => {
-      return response.status(422).json({ 'error': error })
+      return response.status(422).json({ 'error': error });
   });
 });
 
 app.delete('/api/v1/:table/:id', (request, response) => {
-  const { id } = request.params
+  const { id } = request.params;
 
-  const { table } = request.params
+  const { table } = request.params;
 
   database(`${table}`).where('id', id).delete()
     .then((data) => {
       if(data) {
-        return response.status(200).json({ 'message': 'deleted!' })
+        return response.status(200).json({ 'message': 'deleted!' });
       } else {
-        return response.status(422).json({ 'error': 'nothing to delete'})
+        return response.status(422).json({ 'error': 'nothing to delete'});
       }
     })
     .catch(() => {
-      return response.status(500).json({ 'error': '500: Internal error deleting resource' })
+      return response.status(500).json({ 'error': '500: Internal error deleting resource' });
     });
 });
 
 app.delete('/api/v1/text_samples/:id', (request, response) => {
-  const { id } = request.params
+  const { id } = request.params;
 
   database('text_samples').where('id', id).delete()
     .then((data) => {
       if(data) {
-        return response.status(200).json({ 'message': 'text deleted!' })
+        return response.status(200).json({ 'message': 'text deleted!' });
       } else {
-        return response.status(422).json({ 'error': 'nothing to delete'})
+        return response.status(422).json({ 'error': 'nothing to delete'});
       }
     })
     .catch(() => {
-      return response.status(500).json({ 'error': '500: Internal error deleting resource' })
+      return response.status(500).json({ 'error': '500: Internal error deleting resource' });
     });
 });
 
