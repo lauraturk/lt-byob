@@ -12,8 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "jshint": "^2.9.5",
+    "jsonwebtoken": "^7.4.1",
     "knex": "^0.13.0",
     "lint-validator": "https://github.com/lauraturk/lint-validator.git",
     "nightmare": "^2.10.0",
