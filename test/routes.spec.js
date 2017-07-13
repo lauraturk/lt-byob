@@ -264,7 +264,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it.skip('should change the text sample title', (done) => {
+    it('should change the text sample title', (done) => {
       chai.request(server)
       .patch('/api/v1/text_samples/1')
       .send({title: 'Playful Secrets'})
@@ -297,12 +297,11 @@ describe('Client Routes', () => {
       });
     });
 
-    it.skip('should be able to delete a text sample', (done) => {
+    it('should be able to delete a text sample', (done) => {
       chai.request(server)
       .delete('/api/v1/text_samples/1')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.should.be.json; //jshint ignore:line
+        res.should.have.status(202);
         done();
       });
     });
@@ -312,7 +311,6 @@ describe('Client Routes', () => {
       .delete('/api/v1/text_samples/98')
       .end((err, res) => {
         res.should.have.status(422);
-        res.should.be.json; //jshint ignore:line
         done();
       });
     });
