@@ -319,8 +319,8 @@ describe('Client Routes', () => {
       chai.request(server)
       .post('/api/v1/text_samples/1/new')
       .send({
-        "word": "balloon",
-        "type": "NN"
+        "word": "run",
+        "type": "VB"
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -333,6 +333,35 @@ describe('Client Routes', () => {
       .post('/api/v1/text_samples/:id/new')
       .send({
         "word": "balloon",
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+    });
+
+    it('should post a text sample', (done) => {
+      chai.request(server)
+      .post('/api/v1/text_samples/new')
+      .send({
+        "text":" Lady Sophie’s Society Splash When Sophie, the least interesting of the Talbot sisters, lands her philandering brother-in-law backside-first in a goldfish pond in front of all society, she becomes the target of very public aristocratic scorn. Her only choice is to flee London, vowing to start a new life far from the aristocracy. Unfortunately, the carriage in which she stows away isn’t saving her from ruin . . . it’s filled with it. Rogue’s Reign of Ravishment! Kingscote, King, the Marquess of Eversley, has never met a woman he couldn’t charm, resulting in a reputation far worse than the truth, a general sense that he’s more pretty face than proper gentleman, and an irate summons home to the Scottish border. When King discovers stowaway Sophie, however, the journey becomes anything but boring. War? Or More? He thinks she’s trying to trick him into marriage. She wouldn’t have him if he were the last man on earth. But carriages bring close quarters, dark secrets, and unbearable temptation, making opposites altogether too attractive . . .",
+        "title":"The Rogue Not Taken: Scandal & Scoundrel, Book I",
+        "adjectives":[{"word":"least","type":"JJS"}],
+        "nouns":[{"word":"Lady","type":"NNP"}],
+        "adverbs":[{"word":"very","type":"RB"}],
+        "verbs":[{"word":"s","type":"VBZ"}]
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+    });
+
+    it('should return an error code for bad content', (done) => {
+      chai.request(server)
+      .post('/api/v1/text_samples/:id/new')
+      .send({
+        "text": "balloon"
       })
       .end((err, res) => {
         res.should.have.status(400);
