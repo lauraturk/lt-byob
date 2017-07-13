@@ -50,7 +50,7 @@ class SetData {
 
     const formData = new FormData();
 
-    formData.append('text', result.text);
+    formData.append('text', result.body);
     formData.append('output', 'tagged');
 
     fetch(`http://text-processing.com/api/tag/`, {
@@ -76,7 +76,7 @@ class SetData {
       pBlurb.forEach(blurb => {
         reducedBlurbs +=` ${blurb.innerText}`;
       });
-      return { text: reducedBlurbs, title: title };
+      return { body: reducedBlurbs, title: title };
     })
     .end()
     .then((result) => this.parseBlurb(result))

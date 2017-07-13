@@ -279,13 +279,13 @@ app.post('/api/v1/text_samples/:id/new', checkAuth, (request, response) => {
 });
 
 app.post('/api/v1/text_samples/new', checkAuth, (request, response) => {
-  const { title, text, adjectives, adverbs, verbs, nouns } = request.body;
+  const { title, body, adjectives, adverbs, verbs, nouns } = request.body;
 
-  if(!title || !text || !adjectives || !adverbs || !verbs || !nouns) {
+  if(!title || !body || !adjectives || !adverbs || !verbs || !nouns) {
     response.status(400).json({'error': 'You do not have the right parameters'});
   }
 
-  database('text_samples').insert({ title: title, body: text }, 'id')
+  database('text_samples').insert({ title: title, body: body }, 'id')
     .then((text_sampleId) => {
       let posPromises = [];
 

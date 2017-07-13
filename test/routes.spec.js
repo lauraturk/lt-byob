@@ -350,7 +350,7 @@ describe('Client Routes', () => {
       chai.request(server)
       .post('/api/v1/text_samples/new')
       .send({
-        "text":" Lady Sophie’s Society Splash When Sophie, the least interesting of the Talbot sisters, lands her philandering brother-in-law backside-first in a goldfish pond in front of all society, she becomes the target of very public aristocratic scorn. Her only choice is to flee London, vowing to start a new life far from the aristocracy. Unfortunately, the carriage in which she stows away isn’t saving her from ruin . . . it’s filled with it. Rogue’s Reign of Ravishment! Kingscote, King, the Marquess of Eversley, has never met a woman he couldn’t charm, resulting in a reputation far worse than the truth, a general sense that he’s more pretty face than proper gentleman, and an irate summons home to the Scottish border. When King discovers stowaway Sophie, however, the journey becomes anything but boring. War? Or More? He thinks she’s trying to trick him into marriage. She wouldn’t have him if he were the last man on earth. But carriages bring close quarters, dark secrets, and unbearable temptation, making opposites altogether too attractive . . .",
+        "body":" Lady Sophie’s Society Splash When Sophie, the least interesting of the Talbot sisters, lands her philandering brother-in-law backside-first in a goldfish pond in front of all society, she becomes the target of very public aristocratic scorn. Her only choice is to flee London, vowing to start a new life far from the aristocracy. Unfortunately, the carriage in which she stows away isn’t saving her from ruin . . . it’s filled with it. Rogue’s Reign of Ravishment! Kingscote, King, the Marquess of Eversley, has never met a woman he couldn’t charm, resulting in a reputation far worse than the truth, a general sense that he’s more pretty face than proper gentleman, and an irate summons home to the Scottish border. When King discovers stowaway Sophie, however, the journey becomes anything but boring. War? Or More? He thinks she’s trying to trick him into marriage. She wouldn’t have him if he were the last man on earth. But carriages bring close quarters, dark secrets, and unbearable temptation, making opposites altogether too attractive . . .",
         "title":"The Rogue Not Taken: Scandal & Scoundrel, Book I",
         "adjectives":[{"word":"least","type":"JJS"}],
         "nouns":[{"word":"Lady","type":"NNP"}],
@@ -368,7 +368,7 @@ describe('Client Routes', () => {
       chai.request(server)
       .post('/api/v1/text_samples/:id/new')
       .send({
-        "text": "balloon",
+        "body": "balloon",
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
         })
       .end((err, res) => {
