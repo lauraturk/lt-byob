@@ -183,6 +183,19 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
   .catch((error) => console.log('error', error));
 });
 
+app.patch('/api/v1/text_samples/:id', (request, response) => {
+  const { id } = request.params;
+
+  const { title } = request.body;
+
+  database('text_samples').where('id', id).update({ 'title': title })
+  .then((data) => {
+    return response.status(201).json({ 'data': data, 'message': 'title changed!'});
+  })
+  .catch((error) => {
+    return response.status(422).json({'error': error});
+  });
+});
 
 app.patch('/api/v1/:table/:id', (request, response) => {
   const { id } = request.params;
@@ -200,19 +213,24 @@ app.patch('/api/v1/:table/:id', (request, response) => {
   });
 });
 
-app.patch('/api/v1/text_samples/:id', (request, response) => {
-  console.log(request);
+app.delete('/api/v1/text_samples/:id', (request, response) => {
   const { id } = request.params;
 
-  const { title } = request.body;
-
-  database('text_samples').where('id', id).update({ 'title': title })
-    .then((data) => {
-      return response.status(201).json({ 'data': data, 'message': 'title changed!'});
-    })
-    .catch((error) => {
-      return response.status(422).json({'error': error});
-    });
+  database('nouns').where('text_id', id).del()
+   .then(() => database('verbs').where('text_id', id).del())
+   .then(() => database('adverbs').where('text_id', id).del())
+   .then(() => database('adjectives').where('text_id', id).del())
+   .then(() => database('text_samples').where('id', id).del())
+  .then((data) => {
+    if(data > 0) {
+      response.status(202).json({ 'message': 'deleted!' });
+    } else {
+      response.status(422).json({ 'error': 'nothing to delete' });
+    }
+  })
+  .catch(() => {
+    return response.status(500).json({ 'error': '500: Internal error'})
+  })
 });
 
 app.delete('/api/v1/:table/:id', (request, response) => {
@@ -220,7 +238,7 @@ app.delete('/api/v1/:table/:id', (request, response) => {
 
   const { table } = request.params;
 
-  database(`${table}`).where('id', id).delete()
+  database(`${table}`).where('id', id).del()
     .then((data) => {
       if(data > 0) {
         return response.status(202).json({ 'message': 'deleted!' });
@@ -233,21 +251,6 @@ app.delete('/api/v1/:table/:id', (request, response) => {
     });
 });
 
-app.delete('/api/v1/text_samples/:id', (request, response) => {
-  const { id } = request.params;
-
-  database('text_samples').where('id', id).delete()
-    .then((data) => {
-      if(data) {
-        return response.status(200).json({ 'message': 'text deleted!' });
-      } else {
-        return response.status(422).json({ 'error': 'nothing to delete'});
-      }
-    })
-    .catch(() => {
-      return response.status(500).json({ 'error': '500: Internal error deleting resource' });
-    });
-});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);
