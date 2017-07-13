@@ -38,7 +38,7 @@ app.post('/authenticate', (request, response) => {
 
   else {
     let token = jwt.sign(user, app.get('secretKey'), {
-      expiresIn: 172800
+      expiresIn: 1209600
     });
 
     response.json({
@@ -183,7 +183,7 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
   .catch((error) => console.log('error', error));
 });
 
-app.patch('/api/v1/text_samples/:id', (request, response) => {
+app.patch('/api/v1/text_samples/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   const { title } = request.body;
@@ -197,7 +197,7 @@ app.patch('/api/v1/text_samples/:id', (request, response) => {
   });
 });
 
-app.patch('/api/v1/:table/:id', (request, response) => {
+app.patch('/api/v1/:table/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   const { table } = request.params;
@@ -251,6 +251,105 @@ app.delete('/api/v1/:table/:id', (request, response) => {
     });
 });
 
+app.post('/api/v1/text_samples/:id/new', checkAuth, (request, response) => {
+  const { id } = request.params;
+
+  const { word } = request.body;
+  const { type } = request.body;
+
+  if(!word || !type) {
+    response.status(400).json({'error': 'You do not have the right parameters'});
+  }
+
+  let table;
+
+  if(type.includes('NN')) {
+    table = 'nouns';
+  } else if(type.includes('JJ')) {
+    table = 'adjectives';
+  } else if(type.includes('VB')) {
+    table = 'verbs';
+  } else if(type.includes('RB')) {
+    table = 'adverbs';
+  }
+
+  database(table).insert({ word, type, 'text_id': id })
+    .then(() => response.status(201).json({ 'message': 'word added!' }))
+    .catch((error) => response.status(500).json(error));
+});
+
+app.post('/api/v1/text_samples/new', checkAuth, (request, response) => {
+  const { title, text, adjectives, adverbs, verbs, nouns } = request.body;
+
+  if(!title || !text || !adjectives || !adverbs || !verbs || !nouns) {
+    response.status(400).json({'error': 'You do not have the right parameters'});
+  }
+
+  database('text_samples').insert({ title: title, body: text }, 'id')
+    .then((text_sampleId) => {
+      let posPromises = [];
+
+      const createAdjective = (database, adjective) => {
+        return database('adjectives').insert(adjective);
+      };
+
+      const createNoun = (database, noun) => {
+        return database('nouns').insert(noun);
+      };
+
+      const createVerb = (database, verb) => {
+        return database('verbs').insert(verb);
+      };
+
+      const createAdverb = (database, adverb) => {
+        return database('adverbs').insert(adverb);
+      };
+
+      adjectives.forEach(adjective => {
+        posPromises.push(
+          createAdjective(database, {
+            word: adjective.word,
+            type: adjective.type,
+            text_id: text_sampleId[0]
+          })
+        );
+      });
+
+      nouns.forEach(noun => {
+        posPromises.push(
+          createNoun(database, {
+            word: noun.word,
+            type: noun.type,
+            text_id: text_sampleId[0]
+          })
+        );
+      });
+
+      verbs.forEach(verb => {
+        posPromises.push(
+          createVerb(database, {
+            word: verb.word,
+            type: verb.type,
+            text_id: text_sampleId[0]
+          })
+        );
+      });
+
+      adverbs.forEach(adverb => {
+        posPromises.push(
+          createAdverb(database, {
+            word: adverb.word,
+            type: adverb.type,
+            text_id: text_sampleId[0]
+          })
+        );
+      });
+
+      return Promise.all(posPromises);
+    })
+    .then((data) => response.status(201).json({'message': 'new test sample entered!'}))
+    .catch((error) => response.status(500).json({'error': error}));
+});
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);

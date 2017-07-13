@@ -5,9 +5,6 @@ const nightmare = Nightmare({ show: true });
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 
-const cleanTitle = require('./cleanData');
-const cleanResponseData = require('./cleanData');
-
 class SetData {
   constructor(){
     this.dataSet = {};
@@ -45,7 +42,7 @@ class SetData {
     }, {verbs: []});
 
     this.dataSet = Object.assign(this.dataSet, adjectiveFilter, nounFilter, adverbFilter, verbFilter);
-    console.log(this.dataSet);
+    console.log(JSON.stringify(this.dataSet));
   }
 
   parseBlurb(result){
@@ -66,7 +63,7 @@ class SetData {
   }
 
   findSingleBook(){
-    nightmare.goto('https://www.amazon.com/gp/product/037379939X/ref=s9_acsd_ri_bw_c_x_3_w?ie=UTF8&pd_rd_r=SSZE2RHC14TSQW0N7BHB&pd_rd_w=dobJT&pd_rd_wg=nAdo9&pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-3&pf_rd_r=SSZE2RHC14TSQW0N7BHB&pf_rd_r=SSZE2RHC14TSQW0N7BHB&pf_rd_t=101&pf_rd_p=a1277808-1403-4540-81ee-a5610c0d5c83&pf_rd_p=a1277808-1403-4540-81ee-a5610c0d5c83&pf_rd_i=4919320011')
+    nightmare.goto('https://www.amazon.com/gp/product/0062379410/ref=s9_acsd_simh_bw_c_x_3_w?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-8&pf_rd_r=W8QZTJHQ7RD4MSEHK6Y5&pf_rd_r=W8QZTJHQ7RD4MSEHK6Y5&pf_rd_t=101&pf_rd_p=0f07e705-9582-40bf-8f76-570b3c066756&pf_rd_p=0f07e705-9582-40bf-8f76-570b3c066756&pf_rd_i=23')
       .evaluate(() => {
       const title = document.getElementById('productTitle').innerText;
 
@@ -86,5 +83,9 @@ class SetData {
     .catch((error) => console.log('search failed', error));
   }
 }
+
+const newData = new SetData();
+
+newData.findSingleBook();
 
 module.exports = SetData;
