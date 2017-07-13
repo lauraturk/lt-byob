@@ -14,8 +14,12 @@
 * '/api/v1/:table/:id' : where :table parameter can be text_samples, verbs, nouns, adjectives, or adverbs to return a single resource by id
 
 ### DELETE
-* '/api/v1/:table/:id' : where :table parament can be verbs, nouns, adjectives, or adverbs to delete a non-word or wrong word in database
+* '/api/v1/:table/:id' : where :table parameter can be verbs, nouns, adjectives, or adverbs to delete a non-word or wrong word in database
 * '/api/v1/text_samples/:id' : delete a single text sample and all related words
+
+### PATCH
+* '/api/v1/:table/:id : where :table parameter can be verbs, nouns, adjectives, or adverbs. Pass a json body of { "type" : "<new word type>" } to change the Word type according ot the list below. Ojo: Does not alter the table a word is in, changes should remain w/ in the relative word family (e.g. NN -> NNS)
+* '/api/v1/text_samples/:id : Pass a json body of { "title": "<new title>" } to change the title of a text sample
 
 ## Resources
 
