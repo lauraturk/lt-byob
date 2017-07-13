@@ -5,9 +5,6 @@ const nightmare = Nightmare({ show: true });
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 
-// const cleanTitle = require('./cleanData');
-// const cleanResponseData = require('./cleanData');
-
 class SetData {
   constructor(){
     this.dataSet = {};

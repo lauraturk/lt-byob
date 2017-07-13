@@ -256,7 +256,9 @@ describe('Client Routes', () => {
     it('should change the word type', (done) => {
       chai.request(server)
       .patch('/api/v1/verbs/1')
-      .send({type: 'PPP'})
+      .send({type: 'PPP',
+             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+            })
       .end((err, res) => {
         res.should.have.status(201);
         res.should.be.json; //jshint ignore:line
@@ -267,7 +269,9 @@ describe('Client Routes', () => {
     it('should change the text sample title', (done) => {
       chai.request(server)
       .patch('/api/v1/text_samples/1')
-      .send({title: 'Playful Secrets'})
+      .send({
+        title: 'Playful Secrets',
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"        })
       .end((err, res) => {
         res.should.have.status(201);
         res.should.be.json; //jshint ignore:line
@@ -320,7 +324,8 @@ describe('Client Routes', () => {
       .post('/api/v1/text_samples/1/new')
       .send({
         "word": "run",
-        "type": "VB"
+        "type": "VB",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -333,7 +338,8 @@ describe('Client Routes', () => {
       .post('/api/v1/text_samples/:id/new')
       .send({
         "word": "balloon",
-      })
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        })
       .end((err, res) => {
         res.should.have.status(400);
         done();
@@ -349,7 +355,8 @@ describe('Client Routes', () => {
         "adjectives":[{"word":"least","type":"JJS"}],
         "nouns":[{"word":"Lady","type":"NNP"}],
         "adverbs":[{"word":"very","type":"RB"}],
-        "verbs":[{"word":"s","type":"VBZ"}]
+        "verbs":[{"word":"s","type":"VBZ"}],
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -361,8 +368,9 @@ describe('Client Routes', () => {
       chai.request(server)
       .post('/api/v1/text_samples/:id/new')
       .send({
-        "text": "balloon"
-      })
+        "text": "balloon",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        })
       .end((err, res) => {
         res.should.have.status(400);
         done();

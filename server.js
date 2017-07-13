@@ -38,7 +38,7 @@ app.post('/authenticate', (request, response) => {
 
   else {
     let token = jwt.sign(user, app.get('secretKey'), {
-      expiresIn: 172800
+      expiresIn: 1209600
     });
 
     response.json({
@@ -183,7 +183,7 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
   .catch((error) => console.log('error', error));
 });
 
-app.patch('/api/v1/text_samples/:id', (request, response) => {
+app.patch('/api/v1/text_samples/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   const { title } = request.body;
@@ -197,7 +197,7 @@ app.patch('/api/v1/text_samples/:id', (request, response) => {
   });
 });
 
-app.patch('/api/v1/:table/:id', (request, response) => {
+app.patch('/api/v1/:table/:id', checkAuth, (request, response) => {
   const { id } = request.params;
 
   const { table } = request.params;
@@ -251,7 +251,7 @@ app.delete('/api/v1/:table/:id', (request, response) => {
     });
 });
 
-app.post('/api/v1/text_samples/:id/new', (request, response) => {
+app.post('/api/v1/text_samples/:id/new', checkAuth, (request, response) => {
   const { id } = request.params;
 
   const { word } = request.body;
@@ -278,7 +278,7 @@ app.post('/api/v1/text_samples/:id/new', (request, response) => {
     .catch((error) => response.status(500).json(error));
 });
 
-app.post('/api/v1/text_samples/new', (request, response) => {
+app.post('/api/v1/text_samples/new', checkAuth, (request, response) => {
   const { title, text, adjectives, adverbs, verbs, nouns } = request.body;
 
   if(!title || !text || !adjectives || !adverbs || !verbs || !nouns) {
