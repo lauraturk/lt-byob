@@ -91,4 +91,4 @@ const newData = new SetData();
 
 newData.findSingleBook();
 
-module.exports = SetData
+module.exports = SetData;
