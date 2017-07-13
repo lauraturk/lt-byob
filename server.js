@@ -229,8 +229,8 @@ app.delete('/api/v1/text_samples/:id', (request, response) => {
     }
   })
   .catch(() => {
-    return response.status(500).json({ 'error': '500: Internal error'})
-  })
+    return response.status(500).json({ 'error': '500: Internal error'});
+  });
 });
 
 app.delete('/api/v1/:table/:id', (request, response) => {
