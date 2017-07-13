@@ -251,6 +251,33 @@ app.delete('/api/v1/:table/:id', (request, response) => {
     });
 });
 
+app.post('/api/v1/text_samples/:id/new', (request, response) => {
+  const { id } = request.params;
+
+  const { word } = request.body;
+  const { type } = request.body;
+
+  if(!word || !type) {
+    response.status(400).json({'error': 'You do not have the right parameters'});
+  }
+
+  let table;
+
+  if(type.includes('NN')) {
+    table = 'nouns';
+  } else if(type.includes('JJ')) {
+    table = 'adjectives';
+  } else if(type.includes('VB')) {
+    table = 'verbs';
+  } else if(type.includes('RB')) {
+    table = 'adverbs';
+  }
+
+  database(table).insert({ word, type, 'text_id': id })
+    .then(() => response.status(201).json({ 'message': 'word added!' }))
+    .catch((error) => response.status(500).json(error))
+});
+
 
 app.listen(app.get('port'), () => {
   console.log(`${app.locals.title} is running on ${app.get('port')}.`);

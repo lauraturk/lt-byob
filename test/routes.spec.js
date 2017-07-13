@@ -315,5 +315,30 @@ describe('Client Routes', () => {
       });
     });
 
+    it('should post a new word to a text sample', (done) => {
+      chai.request(server)
+      .post('/api/v1/text_samples/1/new')
+      .send({
+        "word": "balloon",
+        "type": "NN"
+      })
+      .end((err, res) => {
+        res.should.have.status(201);
+        done();
+      });
+    });
+
+    it('should return an error code for bad content', (done) => {
+      chai.request(server)
+      .post('/api/v1/text_samples/:id/new')
+      .send({
+        "word": "balloon",
+      })
+      .end((err, res) => {
+        res.should.have.status(400);
+        done();
+      });
+    });
+
   });
 });
