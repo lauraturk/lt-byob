@@ -275,7 +275,7 @@ app.post('/api/v1/text_samples/:id/new', (request, response) => {
 
   database(table).insert({ word, type, 'text_id': id })
     .then(() => response.status(201).json({ 'message': 'word added!' }))
-    .catch((error) => response.status(500).json(error))
+    .catch((error) => response.status(500).json(error));
 });
 
 
