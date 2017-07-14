@@ -6,4 +6,7 @@ machine:
 
   environment:
     DATABASE_URL: postgresql://ubuntu:@127.0.0.1:5432/circle_test
+
+test:
+  environment:
     TOKEN: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
