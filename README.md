@@ -22,7 +22,7 @@
 * '/api/v1/text_samples/:id : Pass a json body of { "title": "<new title>" } to change the title of a text sample
 
 ### POST
-* '/api/v1/text_samples/new' : In order to add a text sample and its subsequent words, Pass a json body with the properties of title (string), text (string), adjectives, nouns, adverbs, verbs (each an array of objects with {word: <word>, type: <type>}). Text samples can be webscraped and formatted by requiring and instantiating SetData from 'data/data_fetch.js' In data_fetch.js, change the url in line 69 to the page of a specific book from Amazon (check first if the book description is formatted with <p> tags, not every book is!). Run ```node data/data_fetch.js``` and the formatted, and parsed text and all the words will console log.
+* '/api/v1/text_samples/new' : In order to add a text sample and its subsequent words, Pass a json body with the properties of title (string), text (string), adjectives, nouns, adverbs, verbs (each an array of objects with {word: < word (string) >, type: < type (string)>}). Text samples can be webscraped and formatted by requiring and instantiating SetData from 'data/data_fetch.js' In data_fetch.js, change the url in line 69 to the URL of a specific book (Romance preferred) from Amazon.com (check first if the book description is formatted with < p > tags, not every book is!). Run ```node data/data_fetch.js``` and the formatted text and all the parsed and tagged words will console log.
 * '/api/v1/text_samples/:id/new' : where :id is the text_sample the word is from. Pass a json object {"word": <word>, "type": <type> } Type must be one of the types listed below.
 
 ## Resources
