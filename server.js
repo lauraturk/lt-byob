@@ -121,10 +121,10 @@ app.get('/api/v1/verbs', (request, response) => {
   });
 });
 
-app.get('/api/v1/:table?word=example', (request, response) => {
-  const { table, example } = request.params;
+app.get('/api/v1/:table/?word=example', (request, response) => {
+  const { table } = request.params;
 
-  database(`${table}`).where('word', example).select()
+  database(`${table}`).where('word', request.query.word).select()
     .then((word) => {
       if(word.length) {
         response.status(200).json({word: word[0]});
