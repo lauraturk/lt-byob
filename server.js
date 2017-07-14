@@ -121,6 +121,20 @@ app.get('/api/v1/verbs', (request, response) => {
   });
 });
 
+app.get('/api/v1/:table?word=example', (request, response) => {
+  const { table, example } = request.params;
+
+  database(`${table}`).where('word', example).select()
+    .then((word) => {
+      if(word.length) {
+        response.status(200).json({word: word[0]});
+      } else {
+        response.status(404).json({'error': 'That word does not exist, sadly'});
+      }
+    })
+    .catch((error) => console.log('500: Internal server error', error));
+});
+
 app.get('/api/v1/:table/:id', (request, response) => {
   const { id } = request.params;
 
@@ -153,7 +167,7 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
     if (data.length) {
       response.status(200).json(data);
     } else {
-      resonse.status(404).json({'error': 'Error requesting stuff'});
+      resonse.status(404).json({'error': 'There are no words...'});
     }
   })
   .catch((error) => console.log('error', error));

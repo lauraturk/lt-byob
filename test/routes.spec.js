@@ -241,6 +241,17 @@ describe('Client Routes', () => {
       });
     });
 
+    it('should return a given word', (done) => {
+      chai.request(server)
+      .get('/api/v1/nouns?word=Come')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body[0].should.have.property('word');
+        res.body[0].word.should.equal('Come');
+        done();
+      });
+    });
+
     it('should return all the words from a text_sample', (done) => {
       chai.request(server)
       .get('/api/v1/text_samples/1/words')
