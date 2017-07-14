@@ -1,5 +1,5 @@
 # Build Your Own Backend - BYO-MadLib
-#### A practice RESTful API that collects and parses book blurbs culled from Amazon's Best of the Month Romance Novel.
+#### A practice RESTful API that collects and parses book blurbs culled from Amazon's *Best of the Month* Romance Novel Section. Every text sample is parsed and every word is tagged with a part of speech. This API gives you access to four major categories of parts of speech: Nouns, Adverbs, Adjectives, and Verbs. Might there be a heaving bosom or a rakish cad to stir your heart? 
 
 [Original Assignment](http://frontend.turing.io/projects/build-your-own-backend.html)
 
