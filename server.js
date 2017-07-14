@@ -25,30 +25,6 @@ app.set('secretKey', process.env.CLIENT_SECRET);
 
 app.set('port', process.env.PORT || 3000);
 
-
-app.post('/authenticate', (request, response) => {
-  const user = request.body;
-
-  if (user.username !== process.env.USERNAME || user.password !== process.env.PASSWORD) {
-    response.status(403).send({
-      success: false,
-      message: 'Invalid Credentials'
-    });
-  }
-
-  else {
-    let token = jwt.sign(user, app.get('secretKey'), {
-      expiresIn: 1209600
-    });
-
-    response.json({
-      success: true,
-      username: user.username,
-      token: token
-  });
-  }
-});
-
 const checkAuth = (request, response, next) => {
   const token = request.body.token || request.param('token') || request.headers.authorization;
 
