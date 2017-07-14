@@ -253,7 +253,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should change the word type', (done) => {
+    it.skip('should change the word type', (done) => {
       chai.request(server)
       .patch('/api/v1/verbs/1')
       .send({type: 'PPP',
@@ -266,12 +266,12 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should change the text sample title', (done) => {
+    it.skip('should change the text sample title', (done) => {
       chai.request(server)
       .patch('/api/v1/text_samples/1')
       .send({
         title: 'Playful Secrets',
-        token: process.env.TOKEN 
+        token: process.env.TOKEN
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -320,7 +320,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should post a new word to a text sample', (done) => {
+    it.skip('should post a new word to a text sample', (done) => {
       chai.request(server)
       .post('/api/v1/text_samples/1/new')
       .send({
@@ -334,7 +334,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should return an error code for bad content', (done) => {
+    it.skip('should return an error code for bad content', (done) => {
       chai.request(server)
       .post('/api/v1/text_samples/:id/new')
       .send({
@@ -347,7 +347,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should post a text sample', (done) => {
+    it.skip('should post a text sample', (done) => {
       chai.request(server)
       .post('/api/v1/text_samples/new')
       .send({
@@ -365,7 +365,7 @@ describe('Client Routes', () => {
       });
     });
 
-    it('should return an error code for bad content', (done) => {
+    it.skip('should return an error code for bad content', (done) => {
       chai.request(server)
       .post('/api/v1/text_samples/:id/new')
       .send({
