@@ -257,7 +257,7 @@ describe('Client Routes', () => {
       chai.request(server)
       .patch('/api/v1/verbs/1')
       .send({type: 'PPP',
-             token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+             token: process.env.TOKEN
             })
       .end((err, res) => {
         res.should.have.status(201);
@@ -271,7 +271,8 @@ describe('Client Routes', () => {
       .patch('/api/v1/text_samples/1')
       .send({
         title: 'Playful Secrets',
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"        })
+        token: process.env.TOKEN 
+      })
       .end((err, res) => {
         res.should.have.status(201);
         res.should.be.json; //jshint ignore:line
@@ -325,7 +326,7 @@ describe('Client Routes', () => {
       .send({
         "word": "run",
         "type": "VB",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        "token": process.env.TOKEN
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -338,7 +339,7 @@ describe('Client Routes', () => {
       .post('/api/v1/text_samples/:id/new')
       .send({
         "word": "balloon",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        "token": process.env.TOKEN
         })
       .end((err, res) => {
         res.should.have.status(400);
@@ -356,7 +357,7 @@ describe('Client Routes', () => {
         "nouns":[{"word":"Lady","type":"NNP"}],
         "adverbs":[{"word":"very","type":"RB"}],
         "verbs":[{"word":"s","type":"VBZ"}],
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        "token": process.env.TOKEN
       })
       .end((err, res) => {
         res.should.have.status(201);
@@ -369,7 +370,7 @@ describe('Client Routes', () => {
       .post('/api/v1/text_samples/:id/new')
       .send({
         "body": "balloon",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxhdXJhIiwicGFzc3dvcmQiOiJhTG92ZVRoYXROZWl0aGVyQ2FuRGVueSIsImlhdCI6MTQ5OTk4MDAyOCwiZXhwIjoxNTAxMTg5NjI4fQ.LEUtAZbdq03tD9XCx-K2rsM4Lu1_V19UE5yHSvd2cxs"
+        "token": process.env.TOKEN
         })
       .end((err, res) => {
         res.should.have.status(400);
