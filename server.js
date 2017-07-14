@@ -17,11 +17,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-if (!config.CLIENT_SECRET || !config.USERNAME || !config.PASSWORD) {
+if (!process.env.CLIENT_SECRET || !process.env.USERNAME || !process.env.PASSWORD) {
   throw 'Make sure you have a CLIENT_SECRET, USERNAME, and PASSWORD in your .env file';
 }
 
-app.set('secretKey', config.CLIENT_SECRET);
+app.set('secretKey', process.env.CLIENT_SECRET);
 
 app.set('port', process.env.PORT || 3000);
 
@@ -29,7 +29,7 @@ app.set('port', process.env.PORT || 3000);
 app.post('/authenticate', (request, response) => {
   const user = request.body;
 
-  if (user.username !== config.USERNAME || user.password !== config.PASSWORD) {
+  if (user.username !== process.env.USERNAME || user.password !== process.env.PASSWORD) {
     response.status(403).send({
       success: false,
       message: 'Invalid Credentials'
