@@ -12,6 +12,7 @@
 * '/api/v1/adverbs' : returns a json response of all words labeled as Adverbs (RB)
 * '/api/v1/verbs' : returns a json response of all words labeled as Verbs (VB)
 * '/api/v1/:table/:id' : where :table parameter can be text_samples, verbs, nouns, adjectives, or adverbs to return a single resource by id
+* '/api/v1/text_samples/:id/words : find all the words for a given text sample by text sample id.
 
 ### DELETE
 * '/api/v1/:table/:id' : where :table parameter can be verbs, nouns, adjectives, or adverbs to delete a non-word or wrong word in database
