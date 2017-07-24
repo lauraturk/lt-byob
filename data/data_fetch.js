@@ -17,8 +17,7 @@ class SetData {
     const re = new RegExp('[A-Za-z]', 'g');
 
     const punctuationRemove = text.split(" ").reduce((accu, word, index) => {
-      re.test(word) ? accu.push(`${word}/${index}`) : null
-      return accu
+      return re.test(word) ? accu.push(`${word}/${index}`) : undefined;
     }, []);
 
     const adjectiveFilter = punctuationRemove.filter(word => word.includes('/JJ')).reduce((acc, word) => {
