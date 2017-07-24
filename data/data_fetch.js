@@ -12,32 +12,36 @@ class SetData {
 
   cleanResponseData(responseBody) {
     const text = responseBody.text;
+    // console.log(responseBody.text, 'response body')
 
     const re = new RegExp('[A-Za-z]', 'g');
 
-    const punctuationRemove = text.split(" ").filter(word => re.test(word));
+    const punctuationRemove = text.split(" ").reduce((accu, word, index) => {
+      re.test(word) ? accu.push(`${word}/${index}`) : null
+      return accu
+    }, []);
 
     const adjectiveFilter = punctuationRemove.filter(word => word.includes('/JJ')).reduce((acc, word) => {
       const splitWord = word.split('/');
-      acc.adjectives.push({word: splitWord[0], type: splitWord[1]});
+      acc.adjectives.push({word: splitWord[0], type: splitWord[1], index: splitWord[2]});
       return acc;
     }, {adjectives: []});
 
     const nounFilter = punctuationRemove.filter(word => word.includes('/NN')).reduce((acc, word) => {
       const splitWord = word.split('/');
-      acc.nouns.push({word: splitWord[0], type: splitWord[1]});
+      acc.nouns.push({word: splitWord[0], type: splitWord[1], index: splitWord[2]});
       return acc;
     }, {nouns: []});
 
     const adverbFilter = punctuationRemove.filter(word => word.includes('/RB')).reduce((acc, word) => {
       const splitWord = word.split('/');
-      acc.adverbs.push({word: splitWord[0], type: splitWord[1]});
+      acc.adverbs.push({word: splitWord[0], type: splitWord[1], index: splitWord[2]});
       return acc;
     }, {adverbs: []});
 
     const verbFilter = punctuationRemove.filter(word => word.includes('/VB')).reduce((acc, word) => {
       const splitWord = word.split('/');
-      acc.verbs.push({word: splitWord[0], type: splitWord[1]});
+      acc.verbs.push({word: splitWord[0], type: splitWord[1], index: splitWord[2]});
       return acc;
     }, {verbs: []});
 
