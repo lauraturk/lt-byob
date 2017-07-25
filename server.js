@@ -159,12 +159,12 @@ app.get('/api/v1/text_samples/:id/words', (request, response) => {
   database('text_samples_words').where('text_id', id).select()
     .then((wordData) => {
       const allTheWords = [];
-      
+
       wordData.forEach(word => {
         allTheWords.push(database('words').where('id', word.word_id).select()
-        .then((data) => Object.assign({}, data[0], {index: word.word_index})))
+        .then((data) => Object.assign({}, data[0], {index: word.word_index})));
       });
-      return Promise.all(allTheWords)
+      return Promise.all(allTheWords);
     })
   .then((data) => {
     if (data.length) {
