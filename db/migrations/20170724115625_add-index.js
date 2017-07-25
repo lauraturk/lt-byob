@@ -12,12 +12,23 @@ exports.up = function(knex, Promise) {
       table.string('word');
       table.string('type');
       table.timestamps(true, true);
+    }),
+
+    knex.schema.createTable('text_samples_words', (table) => {
+      table.increments('id').primary();
+      table.integer('text_id').unsigned();
+      table.foreign('text_id').references('text_samples.id');
+      table.integer('word_id').unsigned();
+      table.foreign('word_id').references('words.id');
+      table.integer('word_index').unsigned();
     })
+
   ]);
 };
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('text-samples-words'),
     knex.schema.dropTable('words'),
 
     knex.schema.createTable('verbs', (table) => {
