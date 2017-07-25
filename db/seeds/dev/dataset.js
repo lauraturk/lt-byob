@@ -2,80 +2,42 @@
 
 const data = require('../../../data/cleanData');
 
-  const createTextSample = (knex, text_sample) => {
-    return knex('text_samples').insert({
-      title: text_sample.title,
-      body: text_sample.body
-    }, 'id')
-    .then(text_sampleId => {
-      let posPromises = [];
-
-      text_sample.adjectives.forEach(adjective => {
-        posPromises.push(
-          createAdjective(knex, {
-            word: adjective.word,
-            type: adjective.type,
-            text_id: text_sampleId[0]
-          })
-        );
+const createWord = (knex, word, textSampleId, wordIndex) => {
+  return knex('words').returning('id').insert(word)
+    .then((wordId) => {
+      let wordIdentifier = wordId[0];
+      console.log({textSampleId, wordIndex, wordIdentifier});
+      return knex('text_samples_words').insert({
+        text_id: textSampleId,
+        word_id: wordId[0],
+        word_index: parseInt(wordIndex)
       });
-
-      text_sample.nouns.forEach(noun => {
-        posPromises.push(
-          createNoun(knex, {
-            word: noun.word,
-            type: noun.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
-
-      text_sample.verbs.forEach(verb => {
-        posPromises.push(
-          createVerb(knex, {
-            word: verb.word,
-            type: verb.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
-
-      text_sample.adverbs.forEach(adverb => {
-        posPromises.push(
-          createAdverb(knex, {
-            word: adverb.word,
-            type: adverb.type,
-            text_id: text_sampleId[0]
-          })
-        );
-      });
-
-      return Promise.all(posPromises);
     });
-  };
+};
 
-  const createAdjective = (knex, adjective) => {
-    return knex('adjectives').insert(adjective);
-  };
+const createTextSample = (knex, text_sample) => {
+  return knex('text_samples')
+    .returning('id')
+    .insert({
+    title: text_sample.title,
+    body: text_sample.body
+  })
+  .then(text_sampleId => {
+    let textSampleId = text_sampleId[0];
+    let wordPromises = [];
 
-  const createNoun = (knex, noun) => {
-    return knex('nouns').insert(noun);
-  };
+    text_sample.words.forEach(word => {
+      wordPromises.push(createWord(knex, { word: word.word, type: word.type }, textSampleId, word.index));
+    });
 
-  const createVerb = (knex, verb) => {
-    return knex('verbs').insert(verb);
-  };
+    return Promise.all(wordPromises);
+  });
+};
 
-  const createAdverb = (knex, adverb) => {
-    return knex('adverbs').insert(adverb);
-  };
-  // Deletes ALL existing entries
 exports.seed = (knex, Promise) => {
-  return knex('verbs').del()
-    .then(() => knex('adjectives').del())
-    .then(() => knex('nouns').del())
-    .then(() => knex('adverbs').del())
+  return knex('text_samples_words').del()
     .then(() => knex('text_samples').del())
+    .then(() => knex('words').del())
     .then(() => {
       let textSamplePromises = [];
 
