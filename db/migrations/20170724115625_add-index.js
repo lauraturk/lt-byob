@@ -22,7 +22,6 @@ exports.up = function(knex, Promise) {
       table.foreign('word_id').references('words.id');
       table.integer('word_index').unsigned();
     })
-
   ]);
 };
 
