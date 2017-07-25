@@ -10,7 +10,7 @@ const knex = require('../db/knex');
 
 chai.use(chaiHttp);
 
-describe('Client Routes', () => {
+describe.skip('Client Routes', () => {
   before((done) => {
     knex.migrate.latest()
     .then(() => {
@@ -34,7 +34,7 @@ describe('Client Routes', () => {
     });
   });
 
-  describe('API GET routes', () => {
+  describe.skip('API GET routes', () => {
 
     it('should return all text samples', (done) => {
       chai.request(server)
