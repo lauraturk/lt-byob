@@ -5,7 +5,7 @@ const data = require('../../../data/cleanData');
 const createWord = (knex, word, textSampleId, wordIndex) => {
   return knex('words').returning('id').insert(word)
     .then((wordId) => {
-      let wordIdentifier = wordId[0]
+      let wordIdentifier = wordId[0];
       console.log({textSampleId, wordIndex, wordIdentifier});
       return knex('text_samples_words').insert({
         text_id: textSampleId,
@@ -27,12 +27,12 @@ const createTextSample = (knex, text_sample) => {
     let wordPromises = [];
 
     text_sample.words.forEach(word => {
-      wordPromises.push(createWord(knex, { word: word.word, type: word.type }, textSampleId, word.index))
+      wordPromises.push(createWord(knex, { word: word.word, type: word.type }, textSampleId, word.index));
     });
 
     return Promise.all(wordPromises);
   });
-}
+};
 
 exports.seed = (knex, Promise) => {
   return knex('text_samples_words').del()

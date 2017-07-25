@@ -156,13 +156,16 @@ app.get('/api/v1/:table/:id', (request, response) => {
 app.get('/api/v1/text_samples/:id/words', (request, response) => {
   const { id } = request.params;
 
-  database('verbs').where('text_id', id).select().union(function () {
-    this.select('*').from('adverbs').where('text_id', id).union(function () {
-      this.select('*').from('adjectives').where('text_id', id).union(function () {
-        this.select('*').from('nouns').where('text_id', id);
+  database('text_samples_words').where('text_id', id).select()
+    .then((wordData) => {
+      const allTheWords = [];
+      
+      wordData.forEach(word => {
+        allTheWords.push(database('words').where('id', word.word_id).select()
+        .then((data) => Object.assign({}, data[0], {index: word.word_index})))
       });
-    });
-  })
+      return Promise.all(allTheWords)
+    })
   .then((data) => {
     if (data.length) {
       response.status(200).json(data);
