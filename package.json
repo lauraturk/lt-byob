@@ -23,10 +23,6 @@
     "node-fetch": "^1.7.1",
     "pg": "^6.4.0"
   },
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
   "devDependencies": {
     "chai": "^4.0.2",
     "chai-http": "^3.0.0",
