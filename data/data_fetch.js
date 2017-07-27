@@ -5,7 +5,8 @@ const nightmare = Nightmare({ show: true });
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 
-let blurb = {body: 'Working as an informant for the DEA, Victoria Monzelle is used to living on the edge. But she\'s not a big fan of getting kidnapped. And definitely not by a bunch of bad boy witches with fancy-colored fire to shoot at people. So when Adam Dunne shows up and claims to be a witch enforcer, she\'s not going to put her life in his hands based on his word, no matter how smooth and smart and beautifully Irish his words sound. But on the run from a tribunal of witches, she isn\'t going to make it far. . . Before she knows it, Adam\'s word is all that stands between her and execution. Sophisticated, just-gotta-ruffle-him Adam has vowed to make her his one eternal mate, -RT Book Reviews on Marked, 4.5 Stars Top Pick. But Tori isn\'t interested in being anyone\'s pity date. And if they think she\'s unpredictable now, they should see what\'s coming next . . . "Hot and fast from beginning to end." -Kate Douglas on Fated', title: 'witchshit'}
+let blurb = {body: "Conquering a supernatural realm turned out to be easier than getting over a broken heart. But her initial victory has made Ivy a target for revenge, forcing her to reunite with the dangerous—and dangerously sexy—Adrian. Ivy isn't sure which will be harder: finding the hallowed weapon that will repair the crumbling walls between the demon and human realms, or resisting Adrian, who's decided that come hell or high water, he will make Ivy his.",
+title: "The Sweetest Burn"}
 
 class SetData {
   constructor(){
