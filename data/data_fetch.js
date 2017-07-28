@@ -5,8 +5,8 @@ const nightmare = Nightmare({ show: true });
 const FormData = require('form-data');
 const fetch = require('node-fetch');
 
-let blurb = {body: "Conquering a supernatural realm turned out to be easier than getting over a broken heart. But her initial victory has made Ivy a target for revenge, forcing her to reunite with the dangerous—and dangerously sexy—Adrian. Ivy isn't sure which will be harder: finding the hallowed weapon that will repair the crumbling walls between the demon and human realms, or resisting Adrian, who's decided that come hell or high water, he will make Ivy his.",
-title: "The Sweetest Burn"}
+let blurb = { body: 'Amos Bledsoe prefers bicycles to horses and private conversations over the telegraph wire to social gatherings with young ladies who see him as nothing more than an oddity. His telegraph companion, the mysterious Miss G, listens eagerly to his ramblings every night and delights him with tales all her own. For months, their friendship--dare he believe, courtship?--has fed his hope that he has finally found the woman God intended for him. Yet when he takes the next step to meet her in person, he discovers her life is in peril, and Amos must decide if he can shed the cocoon of his quiet nature to become the hero Grace requires.',
+title: 'Heart On The Line'}
 
 class SetData {
   constructor(){
@@ -68,7 +68,7 @@ class SetData {
   }
 
   parseBlurb(result){
-    this.dataSet = Object.assign(this.dataSet, result);
+    this.dataSet = Object.assign(this.dataSet, {title: result.title});
 
     const formData = new FormData();
 
@@ -80,7 +80,10 @@ class SetData {
       body: formData
     })
     .then((response) => response.json())
-    .then(data => this.cleanResponseData(data))
+    .then(data => {
+      this.dataSet = Object.assign(this.dataSet, {body: data.text})
+      this.cleanResponseData(data)
+    })
     .catch((error) => console.log("fetch failed", error));
   }
 

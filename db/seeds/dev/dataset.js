@@ -6,7 +6,6 @@ const createWord = (knex, word, textSampleId, wordIndex) => {
   return knex('words').returning('id').insert(word)
     .then((wordId) => {
       let wordIdentifier = wordId[0];
-      console.log({textSampleId, wordIndex, wordIdentifier});
       return knex('text_samples_words').insert({
         text_id: textSampleId,
         word_id: wordId[0],
