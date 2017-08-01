@@ -1,5 +1,4 @@
 /*jshint esversion: 6 */
-
 exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.dropTable('verbs'),
@@ -27,7 +26,7 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('text-samples-words'),
+    knex.schema.dropTable('text_samples_words'),
     knex.schema.dropTable('words'),
 
     knex.schema.createTable('verbs', (table) => {

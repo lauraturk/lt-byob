@@ -3,13 +3,13 @@
 module.exports = {
   test: {
     client: 'pg',
-    connection: process.env.DATABASE_URL || 'postgres://localhost/madlib_test',
+    connection: process.env.DATABASE_URL || 'postgres://localhost/madlib_test2',
     useNullAsDefault: true,
     migrations: {
-      directory: './db/migrations'
+      directory: __dirname + '/db/migrations'
     },
     seeds: {
-      directory: './db/seeds/test'
+      directory: __dirname + '/db/seeds/test'
     }
   },
 
